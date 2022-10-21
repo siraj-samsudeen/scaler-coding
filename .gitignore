@@ -1,0 +1,5 @@
+old/
+temp.*
+.DS_Store
+anki.py
+a_test.py
