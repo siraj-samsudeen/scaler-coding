@@ -1,27 +1,43 @@
 # https://www.scaler.com/academy/mentee-dashboard/class/20528/assignment/problems/4116
+# Given an array of positive integers A and an integer B,
+# find and return first continuous subarray which adds to B.
+# If the answer does not exist return an array with a single element "-1".
+# First sub-array means the sub-array for which starting index in minimum.
+
+# A simple problem turned out to be very complex when handling all the boundary cases
+def test():
+    s = Solution()
+    assert s.solve([0], 0) == []
+    assert s.solve([1], 1) == [1]
+    assert s.solve([1], 2) == [-1]
+    assert s.solve([1, 2], 3) == [1, 2]
+    assert s.solve([1, 2], 4) == [-1]
+    assert s.solve([1, 2], 2) == [2]
+
+    assert s.solve([1, 2, 3, 4, 5], 5) == [2, 3]
+    assert s.solve([5, 10, 20, 100, 105], 110) == [-1]
+
+
 class Solution:
     # @param A : list of integers
     # @param B : integer
     # @return a list of integers
     def solve(self, A, B):
-        a = A
+        arr = A
         k = B
-        n = len(A)
-        
-        p1 = p2 = 0
-        sum = a[0]
-        
-        while p1 < n and p2 < n:
-            if sum == k:
-                return a[p1:p2+1]
-            elif sum < k:
-                p2 += 1
-                if p2 != n: sum += a[p2]
-            else:
-                sum -= a[p1]
-                p1 +=1
-        # no match found so far
-        return [-1]
+        n = len(arr)
 
-# print(Solution().solve([1, 2, 3, 4, 5], 5))                
-# print(Solution().solve( [ 5, 10, 20, 100, 105 ], 110))
+        left = right = sum = 0
+        while left < right or right < n:
+            if sum == k:
+                return arr[left:right]
+            elif sum < k:
+                if right == n:
+                    break
+                sum += arr[right]
+                right += 1
+            else:
+                sum -= arr[left]
+                left += 1
+
+        return [-1]
